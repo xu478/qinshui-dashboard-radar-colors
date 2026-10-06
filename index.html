@@ -146,7 +146,15 @@
     #aiAdviceEnabled{width:20px;height:20px}
     .center-park-star{filter:drop-shadow(0 0 6px #fe010088)}
     .park-spark{fill:var(--gold);filter:drop-shadow(0 0 5px #e9bc58);pointer-events:none}
-    @media(prefers-reduced-motion:reduce){.center-marker-pulse,.park-spark{display:none}}
+    .schematic-store-route{fill:none;stroke:#e9bc58;stroke-width:1.15;stroke-opacity:.48;stroke-dasharray:3 8;animation:park-route-flow 2.8s linear infinite;filter:drop-shadow(0 0 2px #e9bc5866)}
+    .schematic-store-dot{fill:#e9bc58;stroke:#fff0a8;stroke-width:.8;filter:drop-shadow(0 0 7px #e9bc58);animation:store-dot-breathe 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .schematic-store-halo{fill:none;stroke:#e9bc58;stroke-width:1;opacity:.25}
+    .store-transport-particle{fill:#fff3a5;filter:drop-shadow(0 0 5px #e9bc58)}
+    @keyframes park-route-flow{to{stroke-dashoffset:-44}}
+    @keyframes store-dot-breathe{0%,100%{opacity:.38;transform:scale(.72)}50%{opacity:1;transform:scale(1.28)}}
+    .weather-feed-note{display:none!important;height:0!important;padding:0!important;margin:0!important}
+    #consumerSampleTag{font-size:0}#consumerSampleTag::after{content:"每周统计分析";font-size:16px}
+    @media(prefers-reduced-motion:reduce){.center-marker-pulse,.park-spark{display:none}.schematic-store-route,.schematic-store-dot{animation:none}}
   </style>
 </head>
 <body>
@@ -161,21 +169,21 @@
     <div class="column left-col">
       <section class="panel core-panel"><div class="panel-header"><div><h2 class="panel-title">运营核心指标</h2></div></div><div class="core-grid"><div class="kpi kpi-primary"><div id="salesLabel" class="kpi-label">今日销售额</div><div class="kpi-number"><span id="salesValue">41,728.09</span><small>元</small></div><div id="salesFoot" class="kpi-foot">基数 ¥41,728.09</div></div><div class="kpi"><div class="kpi-label">后勤配送网点</div><div class="kpi-number"><span id="deliveryValue">44</span><small>家</small></div><div class="kpi-foot" id="deliveryFoot">活跃网点占比 62.86%</div></div><div class="kpi"><div class="kpi-label">配送准时率</div><div class="kpi-number"><span id="ontimeValue">99.7</span><small>%</small></div><div id="ontimeFoot" class="kpi-foot">+0.6 个百分点 vs 上周 · 配置</div></div><div class="kpi"><div class="kpi-label">在营服务网点</div><div class="kpi-number"><span id="siteValue">80</span><small>个</small></div><div id="siteFoot" class="kpi-foot">门店 10 + 后勤 70</div></div></div></section>
       <section class="panel store-panel"><div class="panel-header"><div><h2 class="panel-title">门店销售实况</h2></div><span class="tag" id="storeTag">降序</span></div><div id="storeChart" class="store-chart" role="img" aria-label="门店销售金额汇总，单位元"></div><div class="store-summary"><span>门店销售合计 <b id="retailTotal" class="cyan">¥27,964.30</b></span></div></section>
-      <section class="panel flow-panel"><div class="panel-header"><div><h2 class="panel-title">销售流水 · 订单回放</h2></div></div><div id="flowList" class="flow-list"></div></section>
-      <section class="panel"><div class="panel-header"><div><h2 class="panel-title">销售权重与业绩走势</h2></div><span class="tag">浅色 = 10月后预估</span></div><div id="weightChart" class="weight-chart" role="img" aria-label="月度销售权重和后勤网点计划"></div></section>
+      <section class="panel flow-panel"><div class="panel-header"><div><h2 class="panel-title">销售流水 · 订单情况</h2></div></div><div id="flowList" class="flow-list"></div></section>
+      <section class="panel"><div class="panel-header"><div><h2 class="panel-title">销售情况与业绩走势</h2></div><span class="tag">未来3个月预估</span></div><div id="weightChart" class="weight-chart" role="img" aria-label="6月至次年1月销售额与销售预期走势"></div></section>
     </div>
     <div class="column center-col">
-      <section class="panel monitor-panel"><div class="panel-header"><h2 class="panel-title">配送网点示意图</h2><button id="openMapConfig" class="mini-button map-config-button">点位配置</button></div><div class="monitor-stage"><div id="townMap" class="town-map"></div><div class="map-reserves"><div><span>常温仓储储备</span><strong id="mapWarehouse"></strong></div><div><span>冷链储备</span><strong id="mapCold"></strong></div></div><div class="map-key"><span class="gold">● 门店</span><span class="mint">● 后勤事业部</span><span style="color:#FE0100">★ 沁水供应链园区</span><span>光点：双向流通</span></div></div></section>
+      <section class="panel monitor-panel"><div class="panel-header"><h2 class="panel-title">配送网点示意图</h2><button id="openMapConfig" class="mini-button map-config-button">点位配置</button></div><div class="monitor-stage"><div id="townMap" class="town-map"></div><div class="map-reserves"><div><span>常温仓储储备</span><strong id="mapWarehouse"></strong></div><div><span>冷链储备</span><strong id="mapCold"></strong></div></div><div class="map-key"><span class="gold">● 门店</span><span class="mint">● 后勤事业部</span><span style="color:#FE0100">★ 沁水供应链园区</span><span>黄点：门店 · 闪线：运输</span></div></div></section>
       <section class="panel plan-panel"><div class="panel-header"><h2 id="planTitle" class="panel-title">Q4 开店与网点拓展计划</h2><select id="planQuarter" aria-label="计划季度" hidden><option value="1">第一季度</option><option value="2">第二季度</option><option value="3">第三季度</option><option value="4" selected>第四季度</option></select></div><div id="planChart" class="plan-chart" role="img" aria-label="所选季度各月新增门店和后勤网点计划柱状图"></div><div id="quarterDetail" class="monthly-plans"></div></section>
     </div>
     <div class="column right-col">
       <section class="panel weather-panel"><div class="panel-header"><h2 class="panel-title">天气 × 需求 / 农业联动</h2><span class="tag sample">未来 7 天</span></div><div class="weather-context"><div class="weather-now"><svg class="weather-glyph" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 2v6m0 24v6M2 20h6m24 0h6M7 7l4 4m18 18 4 4M7 33l4-4M29 11l4-4" stroke="currentColor" stroke-width="2"/></svg><strong>—</strong><div>天气数据待加载<div class="small">—</div></div></div><div class="weather-impacts"><div><span class="impact-label demand">需求</span><p>正在读取天气依据。</p></div><div><span class="impact-label agriculture">农业</span><p>正在读取天气依据。</p></div></div></div><div id="weatherChart" class="weather-chart" role="img" aria-label="和风天气未来七天最高、最低气温预报"></div></section>
-      <section class="panel profile-panel" id="consumerAnalysisPanel"><div class="panel-header"><div><h2 class="panel-title">消费者分析</h2></div><span class="tag" id="consumerSampleTag">9.24–10.3会员样本</span></div><div class="profile-main"><div id="radarChart" class="radar-chart" role="img" aria-label="参考页消费者分析样例"></div><div class="profile-numbers"><div class="profile-number"><strong id="averageOrder">28.8</strong><small> 元</small><span>今日订单客单价</span></div><div class="profile-number"><strong id="purchaseFrequency" title="统计期间已识别会员的人均正额订单次数">—</strong><small> 次/统计期</small><span>平均消费频次</span></div><div class="profile-number"><strong id="repurchaseRate" title="统计期间至少两笔正额订单的会员占购买会员比例">—</strong><small> %</small><span>期间复购率</span></div></div></div></section>
+      <section class="panel profile-panel" id="consumerAnalysisPanel"><div class="panel-header"><div><h2 class="panel-title">消费者分析</h2></div><span class="tag" id="consumerSampleTag">每周统计分析</span></div><div class="profile-main"><div id="radarChart" class="radar-chart" role="img" aria-label="消费者六维画像分析"></div><div class="profile-numbers"><div class="profile-number"><strong id="averageOrder">28.8</strong><small> 元</small><span>今日订单客单价</span></div><div class="profile-number"><strong id="purchaseFrequency" title="统计期间已识别会员的人均正额订单次数">—</strong><small> 次/统计期</small><span>平均消费频次</span></div><div class="profile-number"><strong id="repurchaseRate" title="统计期间至少两笔正额订单的会员占购买会员比例">—</strong><small> %</small><span>期间复购率</span></div></div></div></section>
       <section class="panel product-panel"><div class="panel-header"><div><h2 class="panel-title">商品维度 · 价格重心与生鲜预估</h2></div><span class="tag">浅色 = 预估区间</span></div><div class="product-toolbar"><div class="product-tabs" aria-label="商品展示指标"><button data-product="price" class="active">价格指数</button><button data-product="amount">销售额</button><button data-product="quantity">销售数量</button></div><select id="quantityUnit" class="product-unit" aria-label="销售数量单位" hidden><option value="kg">kg</option><option value="瓶">瓶</option><option value="袋">袋</option></select></div><div id="productChart" class="product-chart" role="img" aria-label="价格指数或未来七天销售预估区间，示例数据"></div><div id="productLegend" class="product-legend" aria-label="商品图表图例"><span><i class="product-legend-price"></i><span id="productLegendBase">自身历史价格指数</span></span><span><i class="product-legend-range"></i><span id="productRangeLegend">销量预估区间（指数化）</span></span><span id="productCenterLegend"><i class="product-legend-center"></i>价格重心 100</span></div></section>
       <section class="panel advice-panel"><div class="panel-header"><div><h2 class="panel-title">智慧决策建议</h2></div><span class="tag sample"><i class="decision-live-dot" aria-hidden="true"></i>基于权重模型生成</span></div><div id="decisionAdviceList" class="advice-list" aria-live="polite"></div></section>
     </div>
   </main>
-  <footer class="footer"><span>数据源：门店 POS · 后勤调度系统 · 气象服务 · 合作社上报</span><span>数据更新：<b id="dataUpdate">--:--:--</b></span><div class="footer-legend"><span><i class="legend-box" style="background:var(--gold)"></i>浅色 = 10月后预估</span></div><span class="footer-platform">县域供应链平台 · 智慧大屏</span></footer>
+  <footer class="footer"><span>数据源：门店 POS · 后勤调度系统 · 气象服务 · 合作社上报</span><span>数据更新：<b id="dataUpdate">--:--:--</b></span><div class="footer-legend"><span><i class="legend-box" style="background:var(--gold)"></i>浅色 = 10月后预估</span></div><span class="footer-platform">沁水县供应链智慧运营指挥大屏</span></footer>
 </div>
 <div class="dialog-backdrop" id="configBackdrop"><section class="drawer" role="dialog" aria-modal="true" aria-labelledby="configTitle"><div class="drawer-head"><div><h2 id="configTitle">大屏配置</h2><p>修改后可在当前浏览器预览 · 正式共享配置待开发</p></div><button id="closeConfig" aria-label="关闭配置页">关闭</button></div><div class="drawer-tabs"><button data-pane="basic" class="active">基础配置</button><button data-pane="imports">数据导入</button><button data-pane="map">地图点位</button></div><div class="drawer-body"><div class="config-pane active" data-pane-body="basic"><h3 class="config-section">数据展示模式</h3><div class="mode-control" aria-label="数据展示模式"><button id="demoMode" class="active" aria-pressed="true">演示回放</button><button id="realMode" aria-pressed="false">真实数据预览</button></div><div class="preview-controls"><div class="toolbar-left"><span class="state-tag"><i class="state-dot"></i><span id="modeStatus">日均基数 + 历史订单回放</span></span><label for="dataDay" id="dataDayLabel">回放源日期</label><select id="dataDay"></select><span id="dateInfo"></span></div><div class="toolbar-right"><button id="openSources" class="mini-button">数据口径</button></div></div><h3 class="config-section">运营与储备</h3><div id="basicFields" class="form-grid"></div><h3 class="config-section">各季度实际新增（留空表示未记录）</h3><div id="actualPlanFields" class="form-grid"></div><h3 class="config-section">Q4 各月计划新增</h3><div id="planFields" class="form-grid"></div><h3 class="config-section">滚动条参考配置</h3><div id="tickerFields" class="form-grid"></div><h3 class="config-section">自动展示设置</h3><div class="form-grid"><div class="field"><label for="cfgStoreRankSpeed">门店榜单滚动间隔（秒）</label><input id="cfgStoreRankSpeed" type="number" min="3" max="180" step="1"><p>3家门店轮播；梅河店固定在第4行</p></div><div class="field"><label for="cfgRankSpeed">商品榜单滚动间隔（秒）</label><input id="cfgRankSpeed" type="number" min="3" max="120" step="1"><p>商品3条，按当前指标降序</p></div><div class="field"><label for="cfgReplaySpeed">订单回放间隔（秒）</label><input id="cfgReplaySpeed" type="number" min="1" max="30" step="1"><p>自动回放，保留原始订单日期</p></div></div><div class="drawer-note">本期后勤配送网点仍为 44 家配置值；“今日业务单量”作为备选，暂不上屏。真实模式只累计实际订单，演示模式加历史日均基数。</div><h3 class="config-section">消费者分析数据</h3><div class="import-box"><div class="field"><label for="consumerMetricsEndpoint">消费者指标汇总接口（JSON）</label><input id="consumerMetricsEndpoint" type="url" placeholder="同站 data/consumer-metrics.json 或 HTTPS 汇总接口"><p>先计算已提供的10天会员汇总；回放按已处理订单更新统计，不公开会员编号或姓名。</p></div><div class="form-grid"><div class="field"><label for="consumerMetricsEnabled">启用指标自动刷新</label><input id="consumerMetricsEnabled" type="checkbox"></div><div class="field"><label for="consumerMetricsInterval">数据读取间隔（秒）</label><input id="consumerMetricsInterval" type="number" min="30" max="3600" value="60" step="30"></div></div><button id="saveConsumerMetrics" type="button">保存消费者指标配置</button><p id="consumerMetricsStatus" class="small" role="status">按9月24日至10月3日会员订单计算；指标随已核验记录回放更新。</p></div><h3 class="config-section">天气数据</h3><div class="import-box"><div class="field"><label for="weatherFeedEndpoint">共享天气数据接口（JSON）</label><input id="weatherFeedEndpoint" type="url" placeholder="同站 data/weather-latest.json 或 HTTPS 后台接口"><p>网页读取后台缓存；和风认证与免费额度控制由后台处理。</p></div><div class="form-grid"><div class="field"><label for="weatherFeedEnabled">启用共享天气数据刷新</label><input id="weatherFeedEnabled" type="checkbox"></div><div class="field"><label for="weatherFeedInterval">网页读取间隔（秒）</label><input id="weatherFeedInterval" type="number" min="600" max="3600" value="600" step="60"></div></div><button id="saveWeatherFeed" type="button">保存天气数据配置</button><p id="weatherFeedStatus" class="small" role="status">读取已验证的和风天气数据。</p></div><h3 class="config-section">AI 决策分析</h3><div class="import-box"><div class="field"><label for="aiAdviceEndpoint">AI 分析代理接口（HTTPS）</label><input id="aiAdviceEndpoint" type="url" placeholder="https://您的服务/api/decision-advice"><p>模型密钥存于后端；这里只配置分析接口。</p></div><div class="form-grid"><div class="field"><label for="aiAdviceEnabled">启用真实 AI 分析</label><input id="aiAdviceEnabled" type="checkbox"></div><div class="field"><label for="aiAdviceInterval">最短分析间隔（秒）</label><input id="aiAdviceInterval" type="number" min="30" max="300" value="30" step="1"></div></div><button id="saveAIAdvice" type="button">保存 AI 分析配置</button><p id="aiAdviceStatus" class="small" role="status">未配置 AI 接口，当前依据订单和配置生成规则建议。</p></div></div><div class="config-pane" data-pane-body="imports"><div class="drawer-note">此处演示导入与字段映射流程。基数替换与共享存储将在后续开发；今日订单与明细可实际解析、核对并应用；基数替换仍为映射预览。</div><div class="import-box"><h3>导入门店订单与明细</h3><p class="small">只累计门店金额；先选择字段并核对预览，导入结果仅保存在当前浏览器。</p><label for="todayOrderMode">数据用途</label><select id="todayOrderMode"><option value="actual">真实今日订单（记账日期必须为今日）</option><option value="replay" selected>演示今日订单（10月2日、3日映射为今日）</option></select><p class="small">订单主表</p><input id="todayOrderFile" type="file" accept=".xlsx,.xls,.csv"><div class="form-grid"><div class="field"><label for="todayOrderSheet">工作表</label><select id="todayOrderSheet"></select></div><div class="field"><label for="todayOrderHeader">表头所在行</label><input id="todayOrderHeader" type="number" value="3" min="1" max="50"></div></div><div id="todayOrderMapping"></div><p class="small">订单明细表（可选；校验流水号、成交金额，不重复计入销售额）</p><input id="todayDetailFile" type="file" accept=".xlsx,.xls,.csv"><div class="form-grid"><div class="field"><label for="todayDetailSheet">明细工作表</label><select id="todayDetailSheet"></select></div><div class="field"><label for="todayDetailHeader">明细表头行</label><input id="todayDetailHeader" type="number" value="3" min="1" max="50"></div></div><button id="previewTodayOrders">核对订单预览</button><button id="applyTodayOrders" class="primary-button" disabled>应用导入</button><button id="clearTodayOrders">恢复内置今日演示订单</button><div id="todayOrderResult" class="import-result" aria-live="polite"></div></div><div id="sourceRows"></div><div class="import-box"><div class="import-steps"><span class="step active">1 选择文件</span><span class="step">2 字段映射</span><span class="step">3 预览检查</span></div><h3>替换试营业销售基数表</h3><input id="importFile" type="file" accept=".xlsx,.xls,.csv" aria-label="选择试营业销售基数表"><p class="small" id="fileStatus">按实际字段映射，不依赖固定列位置。</p><div class="form-grid"><div class="field"><label for="importStart">开始日期</label><input type="date" id="importStart" value="2026-09-24"></div><div class="field"><label for="importEnd">结束日期</label><input type="date" id="importEnd" value="2026-10-03"></div></div><div id="mappingFields"></div><button id="previewImport" class="primary-button">预览映射规则</button><div id="importResult" class="import-result" aria-live="polite"></div></div></div><div class="config-pane" data-pane-body="map"><div class="drawer-note">地形图使用沁水曲屏-2-2.png作装饰背景，未进行地理配准；县界、12乡镇及已确认的业务点位共用WGS84地图投影。原表74条，67条有数值坐标、7条缺失，坐标系未确认。确认原表为WGS84后可接入；GCJ-02、BD-09须先转换。雷达已以真实龙港镇行政区域的几何中心为圆心，半径100公里；园区点位核实后显示红色五角星及业务线路。</div><div class="import-box"><h3>接入已提供的点位表</h3><label for="sourcePointCrs">原表 C 列坐标系</label><select id="sourcePointCrs"><option value="UNKNOWN">尚未确认</option><option value="WGS84">WGS84（已确认）</option><option value="GCJ-02">GCJ-02（需先转换）</option><option value="BD-09">BD-09（需先转换）</option></select><button id="applySourcePoints" type="button">接入原表点位</button><p class="small" id="sourcePointFeedback" aria-live="polite">仅选择已经核实的坐标系；接入会替换当前浏览器的点位列表。</p></div><form id="pointForm"><div class="form-grid"><div class="field"><label for="pointPreset">门店快捷填入</label><select id="pointPreset"><option value="">手动填写其他点位</option></select></div><div class="field"><label for="pointType">点位类型</label><select id="pointType"><option value="store">门店</option><option value="canteen">后勤事业部 / 食堂</option><option value="warehouse">沁水园区仓库 / 配送中心</option><option value="base">农产品基地</option><option value="logistics">物流节点</option><option value="farmer">农户 / 合作社</option></select></div><div class="field"><label for="pointId">点位 ID</label><input id="pointId" required maxlength="80"></div><div class="field"><label for="pointName">名称</label><input id="pointName" required maxlength="100"></div><div class="field"><label for="pointLongitude">经度 longitude</label><input id="pointLongitude" required type="number" min="-180" max="180" step="any"></div><div class="field"><label for="pointLatitude">纬度 latitude</label><input id="pointLatitude" required type="number" min="-90" max="90" step="any"></div><div class="field"><label for="pointTown">所属乡镇（可不填）</label><select id="pointTown"><option value="">按坐标判断</option></select></div><div class="field"><label for="pointCrs">输入坐标系</label><select id="pointCrs"><option value="WGS84">WGS84（已确认）</option><option value="GCJ-02">GCJ-02（先转换）</option></select></div></div><button type="submit" class="primary-button">新增 / 更新点位</button><p id="pointFeedback" class="small" aria-live="polite"></p></form><h3 class="config-section">配送起点</h3><div class="field"><label for="dispatchOrigin">选择沁水园区仓库</label><select id="dispatchOrigin"></select></div><div id="pointList" class="point-list"></div><button id="exportPoints">导出点位 JSON</button><div class="drawer-note">已确认WGS84的点位按经纬度投影，县界外点位也保留显示并提示；雷达保持龙港镇中心、100公里地理半径。每4秒分组启动流动光点，表示业务流通，不代表实时车辆轨迹。点位保存仍仅作用于当前浏览器。</div></div></div><div class="drawer-footer"><button id="saveConfig" class="primary-button">保存并预览</button><button id="resetConfig">恢复初始配置</button><span class="small">仅作用于当前浏览器</span></div></section></div>
 <div id="sourcesModal" class="source-modal"><section class="source-card" role="dialog" aria-modal="true" aria-labelledby="sourceTitle"><div style="display:flex;justify-content:space-between;align-items:center;gap:20px"><h2 id="sourceTitle">数据来源与展示口径</h2><div><a href="data/需求与数据对接说明.md" target="_blank" rel="noopener">需求说明</a> <button id="closeSources">关闭</button></div></div><p>这是一版供布局和交互评审的公开原型。历史销售数据来自已提供的 ERP 导出表，公开页面只使用销售汇总与必要的订单展示字段。</p><table><thead><tr><th>业务</th><th>10 天净销售额</th><th>日均基数</th></tr></thead><tbody><tr><td>零售 · 9 家门店</td><td>¥279,643.04</td><td>¥27,964.30</td></tr><tr><td>批发 · 团餐 + 可乐</td><td>¥137,637.84</td><td>¥13,763.78</td></tr><tr><td>合计</td><td>¥417,280.88</td><td>¥41,728.09</td></tr></tbody></table><ul><li>演示模式：日均基数＋今日回放订单净额。默认采用新交易流水和实物流水中X列记账日期为10月2日、3日的2,049张订单、5,864条明细，合计55,774.59元；运行时映射为当前上海日期，原始日期保留。重复播放只滚动展示，不再次累计金额。</li><li>真实模式：只累计订单净额，不加基数。未导入今日表时展示所选历史日；导入今日门店主表后展示今日门店净销售额。本版今日导入不包含批发。</li><li>零售取实收金额；批发取批发金额，并按出货日期归属。未结算订单也计入销售额，退单扣减。</li><li>配送网点 44、准时率 99.7%、上周变化 +0.6 个百分点、10 家门店和 70 个后勤事业部为配置值。</li><li>仓储 120 吨为原型示例值；冷链 50 吨沿用参考页配置。用户提供地形图作未配准装饰背景，县界、12乡镇与乡镇名称由GeoJSON动态生成，业务点位坐标系待核验。</li><li>客单价＝已累计门店订单实收净额÷订单张数，含负额退单、不含日均基数，随回放实时更新。智慧决策随订单变化生成规则建议；配置AI代理接口后才实际调用模型，接口未提供时不会宣称已接入AI。天气实况与7天预报已取自和风天气，带真实获取时间；当前采用已获取的缓存，持续上游刷新须核实免费余量并部署后台。需求/农业提示依据天气阈值生成参考规则，尚未建立销量预测模型。消费频次与期间复购率按9月24日至10月3日已识别会员正额订单计算；默认在9月24日至10月1日历史统计上，渐进加入10月2日、3日已回放会员订单，原始日期不变。完整10天会员汇总为2,027笔订单、818名购买会员、425名至少两笔订单会员，频次2.48次、期间复购占比51.96%。不足30天，因此不标注30日指标；只代表可识别会员，不用匿名订单推算人数。新导入表未有会员聚合映射时保持历史期间汇总，不猜测新顾客。价格指数、未来7天销售区间及雷达画像仍为展示样例。正式计算待分类映射、完整明细和业务规则确认。</li><li>基础配置、今日门店订单与地图点位仅保存在当前浏览器；共享后台及真实ERP自动取数尚未接入。</li><li>用户提供的14个乡镇已合并为12个，经用户确认用于原型；细缝及县界差异原样保留，尚未通过正式底图验收。点位表67条有数值坐标、7条缺失，坐标系未确认，暂不投影；雷达以真实龙港镇边界计算的中心为圆心，表示100公里地理半径；中心红星“沁水供应链园区”为示意标识，尚非原表园区地址或真实配送服务承诺。主画面省略配准/坐标提示，原始状态仍保留。</li></ul></section></div>
@@ -226,6 +234,39 @@ const DASHBOARD_DATA={"baseline":41728.088,"retailBaseline":27964.304,"wholesale
       );
       parent.append(spark);
     }
+  }
+  function appendSchematicStoreNetwork(parent, center, radarRadius) {
+    const [ox, oy] = center;
+    const reach = Math.min(220, Math.max(105, radarRadius * .22));
+    const positions = [
+      [.96, -.22, .82], [.61, -.78, .96], [-.08, -.96, .72], [-.74, -.62, .88],
+      [-.98, .12, .7], [-.68, .72, .92], [.08, .97, .78], [.79, .62, 1]
+    ];
+    const network = node('g', { class: 'schematic-store-network', 'aria-label': '黄色门店光点及园区运输流线' });
+    const routes = node('g', { class: 'schematic-store-routes' });
+    const stores = node('g', { class: 'schematic-store-points' });
+    positions.forEach(([px, py, scale], index) => {
+      const tx = ox + px * reach * scale, ty = oy + py * reach * scale;
+      const dx = tx - ox, dy = ty - oy;
+      const bend = (index % 2 ? 1 : -1) * Math.min(24, Math.hypot(dx, dy) * .12);
+      const cx = (ox + tx) / 2 - dy / Math.max(1, Math.hypot(dx, dy)) * bend;
+      const cy = (oy + ty) / 2 + dx / Math.max(1, Math.hypot(dx, dy)) * bend;
+      const route = `M${ox},${oy}Q${cx},${cy} ${tx},${ty}`;
+      routes.append(node('path', { d: route, class: 'schematic-store-route', style: `animation-delay:-${(index * .31).toFixed(2)}s` }));
+      const particle = node('circle', { r: 2.5, class: 'store-transport-particle', opacity: .95 });
+      particle.append(node('animateMotion', { path: route, dur: `${3.1 + index * .08}s`, begin: `-${(index * .37).toFixed(2)}s`, repeatCount: 'indefinite' }));
+      routes.append(particle);
+      const point = node('g', { transform: `translate(${tx},${ty})`, class: 'schematic-store', 'data-store-index': index + 1 });
+      const halo = node('circle', { r: 7, class: 'schematic-store-halo' });
+      halo.append(
+        node('animate', { attributeName: 'r', values: '6;14;6', dur: '2.4s', begin: `${(index * .23).toFixed(2)}s`, repeatCount: 'indefinite' }),
+        node('animate', { attributeName: 'opacity', values: '.5;.08;.5', dur: '2.4s', begin: `${(index * .23).toFixed(2)}s`, repeatCount: 'indefinite' })
+      );
+      point.append(halo, node('circle', { r: 4.2, class: 'schematic-store-dot', style: `animation-delay:-${(index * .23).toFixed(2)}s` }));
+      stores.append(point);
+    });
+    network.append(routes, stores);
+    parent.append(network);
   }
   function polygonOK(geometry) {
     if (!geometry || !['Polygon', 'MultiPolygon'].includes(geometry.type)) return false;
@@ -436,6 +477,7 @@ const DASHBOARD_DATA={"baseline":41728.088,"retailBaseline":27964.304,"wholesale
           // does not activate or rewrite the UNKNOWN park spreadsheet position.
           this.radarCenterMarker.setAttribute('data-schematic','true');
           this.radarCenterMarker.setAttribute('aria-label',`${appearance.displayName}示意标识；辐射圆心为${anchor.name}`);
+          appendSchematicStoreNetwork(radar,[x,y],r);
           const glyph=node('g',{class:'radar-town-center',transform:`translate(${x},${y})`,style:`color:${appearance.color||'#FE0100'}`});
           const pulse=node('circle',{r:23,fill:'none',stroke:'currentColor','stroke-width':1,class:'center-marker-pulse'});
           pulse.append(node('animate',{attributeName:'r',values:'22;35;22',dur:'3s',repeatCount:'indefinite'}),node('animate',{attributeName:'opacity',values:'.55;.1;.55',dur:'3s',repeatCount:'indefinite'}));
@@ -2080,17 +2122,17 @@ window.CONSUMER_REPLAY_DATA={"status": "ok", "sourceKind": "historical-order-rep
     const pinned=all.find(s=>s.code==='2001'),others=all.filter(s=>s.code!=='2001');
     const rows=pinned?[...rankWindow(others,state.storeOffset,3),pinned]:rankWindow(all,state.storeOffset,4);state.storeRows=rows;
     $('storeTag').textContent='降序';
-    const name='门店销售额',axisMax=Math.max(30000,Math.ceil(Math.max(0,...all.map(x=>x.value))*1.1/5000)*5000),ticks=[500,1000,5000,10000,20000,30000];
+    const name='门店销售额',axisMax=30000;
     chart('storeChart').setOption({
-      animationDurationUpdate:600,grid:{left:206,right:138,top:20,bottom:55},tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},legend:{show:false},
-      xAxis:{type:'value',name:'元',nameLocation:'end',nameGap:64,min:Math.floor(Math.min(0,...all.map(x=>x.value))/1000)*1000,max:axisMax,interval:500,
+      animationDurationUpdate:600,grid:{left:206,right:138,top:20,bottom:55},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:params=>{const p=params[0];return p?`${p.axisValue}<br>${name}：¥${money(p.data.rawValue)}`:'';}},legend:{show:false},
+      xAxis:{type:'log',logBase:10,name:'元（对数刻度）',nameLocation:'end',nameGap:64,min:100,max:axisMax,
         nameTextStyle:{color:colors.muted,fontSize:18},axisTick:{show:false},
-        // Preserve monetary distances; stagger 500 and 1000 to keep both labels legible.
-        axisLabel:{color:colors.muted,fontSize:18,align:'left',formatter:n=>ticks.includes(n)?(n===500?'\n500':n>=10000?Number((n/10000).toFixed(1))+'万':n):''},splitLine:{show:false}},
+        axisLabel:{color:colors.muted,fontSize:18,formatter:n=>n>=10000?Number((n/10000).toFixed(1))+'万':n>=1000?n:n===100?'100':''},
+        minorTick:{show:false},minorSplitLine:{show:false},splitLine:{show:true,lineStyle:{color:colors.grid}}},
       yAxis:{type:'category',inverse:true,data:rows.map(s=>s.name),axisLabel:{color:colors.text,fontSize:18},axisTick:{show:false},axisLine:{show:false}},
-      series:[{name,type:'bar',data:rows.map(s=>({name:s.code,value:s.value})),barWidth:10,itemStyle:{color:{type:'linear',x:0,y:0,x2:1,y2:0,colorStops:[{offset:0,color:'#19495a'},{offset:1,color:'#19cbe5'}]},borderRadius:[0,4,4,0]},
-        markLine:{silent:true,symbol:'none',label:{show:false},lineStyle:{color:colors.grid,type:'solid',width:1},data:ticks.map(xAxis=>({xAxis}))},
-        label:{show:true,position:'right',fontSize:22,color:colors.cyan,formatter:p=>'¥'+shortMoney(p.value)}}]
+      series:[{name,type:'bar',data:rows.map(s=>({name:s.code,value:Math.min(axisMax,Math.max(101,s.value)),rawValue:s.value,label:{position:s.value>=22000?'insideRight':'right',color:s.value>=22000?'#eaffff':colors.cyan}})),barWidth:13,
+        itemStyle:{color:{type:'linear',x:0,y:0,x2:1,y2:0,colorStops:[{offset:0,color:'#205d68'},{offset:1,color:'#20d7ec'}]},borderRadius:[0,5,5,0]},
+        label:{show:true,fontSize:22,formatter:p=>'¥'+shortMoney(p.data.rawValue)}}]
     },true);
   }
   function setMode(mode){state.mode=mode;state.storeOffset=0;$('demoMode').classList.toggle('active',mode==='demo');$('realMode').classList.toggle('active',mode==='real');$('demoMode').setAttribute('aria-pressed',String(mode==='demo'));$('realMode').setAttribute('aria-pressed',String(mode==='real'));renderStats();}
@@ -2111,8 +2153,24 @@ window.CONSUMER_REPLAY_DATA={"status": "ok", "sourceKind": "historical-order-rep
     renderWeights();renderDecisions();
   }
   function renderWeights(){
-    const p=Number(config.logistics),future=[p,p+Number(config.novLogistics),p+Number(config.novLogistics)+Number(config.decLogistics)];
-    chart('weightChart').setOption({animation:false,grid:{left:56,right:70,top:42,bottom:31},tooltip:{trigger:'axis'},legend:{top:0,textStyle:{color:colors.muted,fontSize:18},itemWidth:16,itemHeight:8,data:[{name:'月度基础权重',icon:'roundRect'},{name:'后勤家数·实际'},{name:'后勤家数·预估',icon:'circle',itemStyle:{color:'transparent',borderColor:'#64d6ad',borderWidth:2}}]},xAxis:{type:'category',data:['6月','7月','8月','9月','10月','11月','12月'],axisLabel:{color:colors.muted,fontSize:19,interval:0},axisLine:{lineStyle:{color:colors.grid}},axisTick:{show:false}},yAxis:[{type:'value',name:'权重',max:2,splitNumber:2,nameTextStyle:{color:colors.muted,fontSize:18},axisLabel:{color:colors.muted,fontSize:18},splitLine:{lineStyle:{color:colors.grid}}},{type:'value',name:'网点/个',max:120,splitNumber:2,nameTextStyle:{color:colors.muted,fontSize:18},axisLabel:{color:colors.muted,fontSize:18},splitLine:{show:false}}],series:[{name:'月度基础权重',type:'bar',itemStyle:{color:'#19bdd6'},data:monthWeights.map((value,i)=>({value,itemStyle:{color:'#19bdd6',opacity:i>4?.3:1}})),barWidth:26},{name:'后勤家数·实际',type:'line',symbol:'circle',yAxisIndex:1,data:[null,32,47,70,p,null,null],symbolSize:7,lineStyle:{color:colors.mint,width:3},itemStyle:{color:colors.mint}},{name:'后勤家数·预估',type:'line',yAxisIndex:1,data:[null,null,null,p,...future],lineStyle:{type:'dashed',color:'rgba(100,214,173,0.4)',width:3},symbol:'circle',symbolSize:8,itemStyle:{color:'transparent',borderColor:'#64d6ad',borderWidth:2,shadowBlur:3,shadowColor:'#64d6ad'}}]},true);
+    const actual=[16.39,58.83,69.78,135.68,18.31,null,null,null];
+    const expected=[16.39,58.83,69.78,145,200.26,null,null,null];
+    const forecast=[null,null,null,null,null,202.02,312,358];
+    const trend=[null,null,null,null,200.26,202.02,312,358];
+    const labels=['6月','7月','8月','9月','10月\n截至10月5日','11月\n预测','12月\n预测','27年1月\n预测'];
+    chart('weightChart').setOption({
+      animationDuration:500,grid:{left:64,right:30,top:48,bottom:43},
+      tooltip:{trigger:'axis',formatter:params=>`${params[0]?.axisValue||''}<br>${params.filter(p=>p.value!=null).map(p=>`${p.seriesName}：${Number(p.value).toFixed(2)}万元`).join('<br>')}`},
+      legend:{top:0,left:'center',textStyle:{color:colors.muted,fontSize:16},itemWidth:20,itemHeight:9,data:['实际销售额','已有预期','预测销售额','预期走势']},
+      xAxis:{type:'category',data:labels,axisLabel:{color:colors.muted,fontSize:16,interval:0,lineHeight:18},axisLine:{lineStyle:{color:colors.grid}},axisTick:{show:false}},
+      yAxis:{type:'value',name:'万元',min:0,max:400,interval:100,nameTextStyle:{color:colors.muted,fontSize:16,padding:[0,20,0,0]},axisLabel:{color:colors.muted,fontSize:16},splitLine:{lineStyle:{color:colors.grid}}},
+      series:[
+        {name:'实际销售额',type:'bar',barWidth:25,data:actual,itemStyle:{color:'#20c3d8'},label:{show:true,position:'top',distance:5,color:'#20d7ec',fontSize:15,formatter:p=>p.value==null?'':p.dataIndex===4?`${Number(p.value).toFixed(2)}万元\n完成 9.14%`:`${Number(p.value).toFixed(2)}万元`}},
+        {name:'已有预期',type:'line',data:expected,symbol:'circle',symbolSize:7,connectNulls:false,lineStyle:{color:'#ffe551',width:2.5},itemStyle:{color:'#ffe551'},label:{show:true,position:'top',color:'#bdeaff',fontSize:15,formatter:p=>p.dataIndex===4?'200.26万元':''}},
+        {name:'预测销售额',type:'bar',barWidth:25,data:forecast,itemStyle:{color:'rgba(46,172,226,.12)',borderColor:'#66c9ef',borderWidth:1.4,borderType:'dashed'},label:{show:true,position:'top',distance:5,color:'#bdeaff',fontSize:15,formatter:p=>p.value==null?'':`${Number(p.value).toFixed(2)}万元`}},
+        {name:'预期走势',type:'line',data:trend,symbol:'circle',symbolSize:7,connectNulls:false,lineStyle:{color:'#ffe551',width:2.5,type:'dashed'},itemStyle:{color:'#ffe551'},label:{show:false}}
+      ]
+    },true);
   }
   const products=[{name:'生鲜果蔬',price:108,indexRange:[120,168],amount:[56000,78400],kg:[840,1176]},{name:'肉禽蛋奶',price:102,indexRange:[96,130],amount:[42000,62000],kg:[560,812]},{name:'粮油调味',price:98,indexRange:[82,105],amount:[31000,45000],kg:[350,490],袋:[420,588]},{name:'酒水饮料',price:96,indexRange:[78,118],amount:[26000,41000],瓶:[840,1176]},{name:'日用百货',price:94,indexRange:[70,92],amount:[12000,19000],瓶:[210,294],袋:[140,210]}];
   function renderProducts(){
@@ -2126,7 +2184,14 @@ window.CONSUMER_REPLAY_DATA={"status": "ok", "sourceKind": "historical-order-rep
     $('productLegendBase').textContent=isPrice?'自身历史价格指数':'预估下限';$('productRangeLegend').textContent=isPrice?'销量预估区间（指数化）':`未来7天预估区间 / ${unit}`;$('productCenterLegend').hidden=!isPrice;
   }
   function renderRadar(){
-    chart('radarChart').setOption(ConsumerVisuals.decorateRadarOption({animation:false,legend:{orient:'vertical',right:2,top:'center',textStyle:{color:colors.muted,fontSize:17},itemWidth:17,itemHeight:10},radar:{center:['40%','47%'],radius:'58%',indicator:['消费频次','购物篮大小','生鲜偏好','价格敏感度','复购意愿','晚间消费'].map(name=>({name,max:100})),axisName:{color:colors.text,fontSize:17},splitLine:{lineStyle:{color:colors.grid}},splitArea:{show:false},axisLine:{lineStyle:{color:colors.grid}}},series:[{type:'radar',symbolSize:5,data:[{name:'门店客群',value:[76,61,89,64,72,81],lineStyle:{color:colors.gold,width:3},itemStyle:{color:colors.gold},areaStyle:{color:colors.gold,opacity:.1}},{name:'后勤单位客群',value:[61,80,55,76,65,41],lineStyle:{color:colors.cyan,type:'dashed',width:3},itemStyle:{color:colors.cyan},areaStyle:{color:colors.cyan,opacity:.06}}]}]}),true);
+    chart('radarChart').setOption(ConsumerVisuals.decorateRadarOption({animation:false,
+      legend:{orient:'vertical',right:2,top:'center',textStyle:{color:'#c8d9e8',fontSize:17},itemWidth:17,itemHeight:10},
+      radar:{shape:'polygon',center:['40%','48%'],radius:'64%',splitNumber:4,indicator:['消费频次','购物篮大小','生鲜偏好','价格敏感度','复购意愿','晚间消费'].map(name=>({name,max:100})),
+        axisName:{color:'#eef8ff',fontSize:17,fontWeight:600},
+        splitLine:{lineStyle:{color:['rgba(80,211,235,.32)','rgba(80,211,235,.45)','rgba(80,211,235,.62)','rgba(107,226,246,.9)'],width:1.5,shadowBlur:5,shadowColor:'rgba(46,172,226,.35)'}},
+        splitArea:{show:true,areaStyle:{color:['rgba(16,63,88,.1)','rgba(24,92,119,.2)']}},axisLine:{lineStyle:{color:'rgba(93,215,237,.6)',width:1.2}}},
+      series:[{type:'radar',symbolSize:6,data:[{name:'门店客群',value:[76,61,89,64,72,81],lineStyle:{color:colors.gold,width:3},itemStyle:{color:colors.gold},areaStyle:{color:colors.gold,opacity:.16}},{name:'后勤单位客群',value:[61,80,55,76,65,41],lineStyle:{color:colors.cyan,type:'dashed',width:3},itemStyle:{color:colors.cyan},areaStyle:{color:colors.cyan,opacity:.1}}]}]
+    }),true);
   }
   const basicFields=[['stores','在营门店数','家',0,999,1],['logistics','后勤事业部数','个',0,999,1],['delivery','后勤配送网点','家',0,999,1],['ontime','配送准时率','%',0,100,.1],['ontimeChange','相较上周变化','个百分点',-100,100,.1],['warehouse','常温仓储储备','吨',0,999999,.1],['cold','冷链储备','吨',0,999999,.1]];
   const planFields=[['octStores','10 月预估新增便民店','家'],['octLogistics','10 月预估新增后勤网点','个'],['novStandard','11 月标准店','家'],['novFranchise','11 月加盟店','家'],['novLogistics','11 月后勤网点','个'],['decFranchise','12 月加盟店','家'],['decLogistics','12 月后勤网点','个']];
@@ -2144,10 +2209,35 @@ window.CONSUMER_REPLAY_DATA={"status": "ok", "sourceKind": "historical-order-rep
     rankTimer=setInterval(()=>{state.productOffset++;renderProducts();},config.rankSpeed*1000);
   }
   function rankWindow(items,offset,size){const start=offset%Math.max(1,items.length-size+1);return items.slice(start,start+size);}
+  const LIVE_WEATHER_URL='https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=112.19&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max&timezone=Asia%2FShanghai&forecast_days=7';
+  const weatherText=code=>code===0?'晴':code<=2?'晴间多云':code===3?'阴':code<=48?'雾':code<=57?'毛毛雨':code<=67?'雨':code<=77?'雪':code<=82?'阵雨':code<=86?'阵雪':code>=95?'雷雨':'多云';
+  const weatherGlyph=code=>code===0?'100':code<=2?'101':code===3?'104':code<=48?'500':code<=57?'305':code<=65?'306':code<=67?'313':code<=77?'400':code<=82?'300':code<=86?'407':code>=95?'302':'101';
+  const liveNumber=value=>Number.isFinite(Number(value))?Number(value):null;
+  const windLevel=kmh=>{const n=Number(kmh);if(!Number.isFinite(n))return null;const index=[1,6,12,20,29,39,50,62,75,89,103,118].findIndex(limit=>n<limit);return index<0?12:index;};
+  const windDirection=degrees=>{const n=Number(degrees);if(!Number.isFinite(n))return null;return ['北风','东北风','东风','东南风','南风','西南风','西风','西北风'][Math.round((((n%360)+360)%360)/45)%8];};
+  let liveWeatherTimer=null;
+  async function refreshRealtimeWeather(){
+    clearTimeout(liveWeatherTimer);
+    try{
+      const response=await fetch(LIVE_WEATHER_URL,{method:'GET',credentials:'omit',cache:'no-store'});
+      if(!response.ok)throw new Error('HTTP '+response.status);
+      const input=await response.json(),current=input.current||{},daily=input.daily||{},fetchedAt=new Date().toISOString();
+      if(!Array.isArray(daily.time)||!daily.time.length)throw new Error('天气预报字段缺失');
+      const snapshot={snapshotVersion:'live-open-meteo-v1',status:'ok',provider:'Open-Meteo',location:{name:'沁水县',longitude:112.19,latitude:35.69,coordinateSystem:'WGS84'},fetchedAt,currentFetchedAt:fetchedAt,dailyFetchedAt:fetchedAt,
+        current:{observedAt:current.time?(current.time.length===16?current.time+':00+08:00':current.time+'+08:00'):fetchedAt,temperature:liveNumber(current.temperature_2m),conditionText:weatherText(Number(current.weather_code)),conditionCode:weatherGlyph(Number(current.weather_code)),humidityPercent:liveNumber(current.relative_humidity_2m),windScale:windLevel(current.wind_speed_10m),windDirectionText:windDirection(current.wind_direction_10m)},
+        days:daily.time.slice(0,7).map((date,index)=>({date,high:liveNumber(daily.temperature_2m_max?.[index]),low:liveNumber(daily.temperature_2m_min?.[index]),conditionText:weatherText(Number(daily.weather_code?.[index])),precipitationProbabilityPercent:liveNumber(daily.precipitation_probability_max?.[index]),dayPrecipitationMm:liveNumber(daily.precipitation_sum?.[index]),windScale:windLevel(daily.wind_speed_10m_max?.[index])})),
+        attributions:['https://open-meteo.com/'],errors:[]};
+      weatherFeed.update(snapshot,'live-open-meteo');
+      $('weatherFeedStatus').textContent='沁水县实时天气已更新；每10分钟自动刷新。';
+    }catch(error){
+      $('weatherFeedStatus').textContent='实时天气暂时读取失败，已保留最近一次有效天气。';
+    }finally{liveWeatherTimer=setTimeout(refreshRealtimeWeather,600000);}
+    return true;
+  }
   function renderWeather(){
     if(weatherFeed)return;
     weatherFeed=new WeatherFeed(document.querySelector('.weather-panel'),{
-      snapshot:window.WEATHER_DATA||null,statusElement:$('weatherFeedStatus'),
+      snapshot:window.WEATHER_DATA||null,statusElement:$('weatherFeedStatus'),autoStart:false,persistConfig:false,
       configElements:{endpoint:$('weatherFeedEndpoint'),enabled:$('weatherFeedEnabled'),interval:$('weatherFeedInterval'),save:$('saveWeatherFeed')},
       renderChart:(model,meta)=>{
         const values=[...model.highs,...model.lows].filter(Number.isFinite);
@@ -2169,6 +2259,8 @@ window.CONSUMER_REPLAY_DATA={"status": "ok", "sourceKind": "historical-order-rep
         },true);
       }
     });
+    weatherFeed.refresh=refreshRealtimeWeather;
+    refreshRealtimeWeather();
   }
   function renderDecisions(v=view()){
     if(!decisionAdvice)return;
